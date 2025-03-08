@@ -5,9 +5,10 @@
 <div class="row">
     <div class="col-md-4">
         <h2>Enter URL address for scrapping</h2>
-        <form asp-controller="Scrapper" asp-action="Scrap" method="post">
-            <input type="text" name="searchQuery" id="searchQuery" placeholder="Enter URL" />
+        <form asp-controller="Scrapper" asp-action="HTTPScrap" method="post">
+            <input type="text" name="scrapQuery" id="scrapQuery" placeholder="Enter URL" />
             <button type="submit">Scrap</button>
         </form>
+        <p>searched for: @ViewBag.ScrapResult</p>
     </div>
 </div>
