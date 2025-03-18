@@ -106,7 +106,76 @@ namespace Scraper.Controllers
 
             }
 
-            Console.WriteLine("--------------------------------------");        
+            Console.WriteLine("--------------------------------------");
+
+            //Display subjects that aren't displayed in lectures
+            foreach (var div1 in labaratorium.Concat(labaratorium1).Concat(english))
+            {
+                var a_cw = div1.SelectNodes("a").ToList();
+
+                foreach (var a in a_cw)
+                {
+                    string hrefvalue_cw = a.GetAttributeValue("href", string.Empty);
+
+                    var TutorID_cw = "https://plany.ubb.edu.pl/" + hrefvalue_cw + "&winW=1904&winH=941&loadBG=000000";
+                    var httpClient1_cw = new HttpClient();
+                    var html1_cw = await httpClient1_cw.GetStringAsync(TutorID_cw);
+                    var htmlDocument1_cw = new HtmlDocument();
+                    htmlDocument1_cw.LoadHtml(html1_cw);
+
+                    var TutorName_cw = htmlDocument1_cw.DocumentNode.Descendants("div")
+                   .Where(node => node.GetAttributeValue("class", "")
+                   .Contains("title")).ToList();
+
+                    string innertext = div1.InnerText.Trim().ToString();
+                    string[] words = innertext.Split();
+
+                    string textBeforeComma = innertext.Split(',')[0];
+
+
+                    if (!displayedSubjects.Contains(textBeforeComma))
+                    {
+                        string firstChar = innertext.Split(',')[0];
+                        string textFormStudium = words.FirstOrDefault(startForm => startForm.StartsWith("St") || startForm.StartsWith("NZ"));
+
+                        string firstLastChar = firstChar + '\t' + textFormStudium;
+
+                        foreach (var divs_a1 in TutorName_cw)
+                        {
+                            string onlyTutorName = divs_a1.InnerText.Trim().ToString();
+
+                            int startIndex = onlyTutorName.IndexOf("-");
+                            int endIndex = onlyTutorName.IndexOf(",");
+
+                            if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
+                            {
+                                string result = onlyTutorName.Substring(startIndex + 2, endIndex - startIndex - 2);
+
+                                if (result.StartsWith("A") || result.StartsWith("B") || result.StartsWith("L"))
+                                {
+                                    result = "";
+                                }
+                                else
+                                {
+                                    if (!displayedTutors_lab.Contains(firstLastChar + " " + result))
+                                    {
+                                        displayedTutors_lab.Add(firstLastChar + " " + result);
+                                        resultsFrontend.Add($"{textBeforeComma}\t{textFormStudium}\t{result}");
+                                        Console.WriteLine(firstLastChar + '\t' + result);
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine("--------------------------------------");
+
+
+            ViewBag.ScrapResults = resultsFrontend;
+
 
             return View("Scrap");
         }
