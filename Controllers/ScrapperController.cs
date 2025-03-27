@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using HtmlAgilityPack;
 
 
@@ -6,6 +6,7 @@ namespace Scraper.Controllers
 {
     public class ScrapperController : Controller
     {
+
 
 
         public IActionResult Scrap()
@@ -181,3 +182,5 @@ namespace Scraper.Controllers
         }
     }
 }
+
+
