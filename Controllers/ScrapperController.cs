@@ -6,8 +6,6 @@ namespace Scraper.Controllers
 {
     public class ScrapperController : Controller
     {
-
-
         public IActionResult Scrap()
         {
             if (TempData["ScrapResult"] != null)
@@ -20,7 +18,6 @@ namespace Scraper.Controllers
 
         public async Task<IActionResult> HTTPScrap(string scrapQuery)
         {
-
             ViewBag.ScrapResult = scrapQuery;
 
             if (string.IsNullOrEmpty(scrapQuery))
@@ -78,6 +75,7 @@ namespace Scraper.Controllers
 
                 //Search Form of studing
                 string[] words = innertext.Split();
+
                 var textFormStudium = words.FirstOrDefault(start => start.StartsWith("St") || start.StartsWith("NZ") || start.StartsWith("NW") || start.StartsWith("Niestacjonarne Wieczorowe"));
                 var nw = "Niestacjonarne Wieczorowe";
                 var nz = "Niestacjonarne zaoczne";
@@ -119,10 +117,10 @@ namespace Scraper.Controllers
                     if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
                     {
 
+
                         string result = onlyTutorName.Substring(startIndex + 2, endIndex - startIndex - 2);
                         resultsFrontend.Add($"{textBeforeComma}\t{textFormStudium}\t{result}");
                         Console.WriteLine(result);
-
 
                     }
                 }
@@ -130,9 +128,6 @@ namespace Scraper.Controllers
             }
 
             Console.WriteLine("--------------------------------------");
-
-
-
 
 
             //Display subjects that aren't displayed in lectures
@@ -158,6 +153,7 @@ namespace Scraper.Controllers
                     string[] words = innertext.Split();
 
                     string textBeforeComma = innertext.Split(',')[0];
+
 
 
 
@@ -191,7 +187,6 @@ namespace Scraper.Controllers
                         }
 
 
-
                         string firstLastChar = firstChar + '\t' + textFormStudium;
 
                         foreach (var divs_a1 in TutorName_cw)
@@ -204,6 +199,7 @@ namespace Scraper.Controllers
                             if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
                             {
                                 string result = onlyTutorName.Substring(startIndex + 2, endIndex - startIndex - 2);
+
 
                                 if (result.StartsWith("A") || result.StartsWith("B") || result.StartsWith("L") || result.StartsWith("H") || result.StartsWith("M"))
                                 {
