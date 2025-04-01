@@ -16,10 +16,10 @@ This project is a web application that allows university students to easily acce
 The system scrapes timetable data from the university's website, processes it, and presents it in a structured and user-friendly format. 
 The application eliminates the need for students to manually search for their schedules, making it more convenient and efficient.
 
-- **?? Web Scraping Functionality:** Allows users to extract educational content from specified group URLs.
-- **?? Robust Error Handling:** Ensures a seamless user experience by managing errors effectively and providing clear feedback.
-- **? Unobtrusive Validation:** Enhances form validation without cluttering HTML, promoting cleaner code and better user experience.
-- **?? Responsive Design:** Ensures a visually appealing interface that adapts to various screen sizes, improving accessibility.
+- **Web Scraping Functionality:** Allows users to extract educational content from specified group URLs.
+- **Robust Error Handling:** Ensures a seamless user experience by managing errors effectively and providing clear feedback.
+- **Unobtrusive Validation:** Enhances form validation without cluttering HTML, promoting cleaner code and better user experience.
+- **Responsive Design:** Ensures a visually appealing interface that adapts to various screen sizes, improving accessibility.
 
 ---
 
