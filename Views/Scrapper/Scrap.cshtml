@@ -7,7 +7,7 @@
         <h2>Enter URL address for scrapping</h2>
 
         <form asp-controller="Scrapper" asp-action="HTTPScrap" method="post">
-            <input type="text" name="scrapQuery" id="scrapQuery" placeholder="Enter URL" />
+            <input type="text" name="scrapQuery" id="scrapQuery" placeholder="Enter URL" value="@ViewBag.ScrapResult" />
             <button type="submit">Scrap</button>
         </form>
         <p>searched for: @ViewBag.ScrapResult</p>

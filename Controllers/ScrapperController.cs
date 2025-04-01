@@ -6,11 +6,12 @@ namespace Scraper.Controllers
 {
     public class ScrapperController : Controller
     {
-
-
-
         public IActionResult Scrap()
         {
+            if (TempData["ScrapResult"] != null)
+            {
+                ViewBag.ScrapResult = TempData["ScrapResult"].ToString();
+            }
 
             return View();
         }
@@ -74,11 +75,30 @@ namespace Scraper.Controllers
 
                 //Search Form of studing
                 string[] words = innertext.Split();
-                var textFormStudium = words.FirstOrDefault(start => start.StartsWith("St") || start.StartsWith("NZ"));
+
+                var textFormStudium = words.FirstOrDefault(start => start.StartsWith("St") || start.StartsWith("NZ") || start.StartsWith("NW") || start.StartsWith("Niestacjonarne Wieczorowe"));
+                var nw = "Niestacjonarne Wieczorowe";
+                var nz = "Niestacjonarne zaoczne";
+                var s = "Stacjonarne";
 
 
-                
-                //resultsFrontend.Add($"{textBeforeComma}\t{textFormStudium}\t");
+                if (textFormStudium == words.FirstOrDefault(start => start.StartsWith("St")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("Nie")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("Niestacjonarne Wieczorowe")))
+                {
+                    textFormStudium = s;
+                }
+                else if (textFormStudium == words.FirstOrDefault(start => start.StartsWith("S")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("NZ")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("Nie")))
+                {
+                    textFormStudium = s;
+                }
+                else if (textFormStudium == words.FirstOrDefault(start => start.StartsWith("NZ") || start.StartsWith("Niestacjonarne Niezaoczne")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("Niestacjonarne Wieczorowe")))
+                {
+                    textFormStudium = nz;
+                }
+                else if (textFormStudium == words.FirstOrDefault(start => start.StartsWith("NW") || start.StartsWith("Niestacjonarne Wieczorowe")))
+                {
+                    textFormStudium = nw;
+                }
+
                 Console.Write(textBeforeComma + '\t' + textFormStudium + '\t');
 
                 displayedSubjects.Add(textBeforeComma);
@@ -96,11 +116,11 @@ namespace Scraper.Controllers
 
                     if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
                     {
-                        
+
+
                         string result = onlyTutorName.Substring(startIndex + 2, endIndex - startIndex - 2);
                         resultsFrontend.Add($"{textBeforeComma}\t{textFormStudium}\t{result}");
                         Console.WriteLine(result);
-                        
 
                     }
                 }
@@ -108,6 +128,7 @@ namespace Scraper.Controllers
             }
 
             Console.WriteLine("--------------------------------------");
+
 
             //Display subjects that aren't displayed in lectures
             foreach (var div1 in labaratorium.Concat(labaratorium1).Concat(english))
@@ -134,10 +155,37 @@ namespace Scraper.Controllers
                     string textBeforeComma = innertext.Split(',')[0];
 
 
+
+
+
                     if (!displayedSubjects.Contains(textBeforeComma))
                     {
                         string firstChar = innertext.Split(',')[0];
-                        string textFormStudium = words.FirstOrDefault(startForm => startForm.StartsWith("St") || startForm.StartsWith("NZ"));
+
+                        var textFormStudium = words.FirstOrDefault(start => start.StartsWith("St") || start.StartsWith("NZ") || start.StartsWith("NW") || start.StartsWith("Niestacjonarne Wieczorowe"));
+                        var nw = "Niestacjonarne Wieczorowe ";
+                        var nz = "Niestacjonarne zaoczne ";
+                        var s = "Stacjonarne";
+                        var nic = " ";
+
+
+                        if (textFormStudium == words.FirstOrDefault(start => start.StartsWith("St")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("Nie")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("Niestacjonarne Wieczorowe")))
+                        {
+                            textFormStudium = s;
+                        }
+                        else if (textFormStudium == words.FirstOrDefault(start => start.StartsWith("S")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("NZ")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("Nie")))
+                        {
+                            textFormStudium = s;
+                        }
+                        else if (textFormStudium == words.FirstOrDefault(start => start.StartsWith("NZ") || start.StartsWith("Niestacjonarne Niezaoczne")) && textFormStudium != words.FirstOrDefault(start => start.StartsWith("Niestacjonarne Wieczorowe")))
+                        {
+                            textFormStudium = nz;
+                        }
+                        else if (textFormStudium == words.FirstOrDefault(start => start.StartsWith("NW") || start.StartsWith("Niestacjonarne Wieczorowe")))
+                        {
+                            textFormStudium = nw;
+                        }
+
 
                         string firstLastChar = firstChar + '\t' + textFormStudium;
 
@@ -152,7 +200,8 @@ namespace Scraper.Controllers
                             {
                                 string result = onlyTutorName.Substring(startIndex + 2, endIndex - startIndex - 2);
 
-                                if (result.StartsWith("A") || result.StartsWith("B") || result.StartsWith("L"))
+
+                                if (result.StartsWith("A") || result.StartsWith("B") || result.StartsWith("L") || result.StartsWith("H") || result.StartsWith("M"))
                                 {
                                     result = "";
                                 }
@@ -182,5 +231,3 @@ namespace Scraper.Controllers
         }
     }
 }
-
-
